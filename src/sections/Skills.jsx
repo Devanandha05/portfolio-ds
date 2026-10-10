@@ -1,3 +1,6 @@
+/**
+ * Skills section uses page/elevated rhythm, cool labels, and tone-mapped chips.
+ */
 import { SKILL_GROUPS, SKILLS_SECTION, LEVELS } from "../data/skills";
 import SectionHeading from "../components/ui/SectionHeading";
 import Reveal from "../components/ui/Reveal";
@@ -5,7 +8,7 @@ import Tag from "../components/ui/Tag";
 import SkillCard from "../components/skills/SkillCard";
 
 /**
- * SKILLS — id="skills" (matches the navbar item).
+ * Skills section on the page surface, with tokenized level markers and skill cards.
  *
  * Content comes from src/data/skills.js. This file only handles layout:
  *   heading → small legend → grid of skill-group cards → "currently exploring" strip.
@@ -14,7 +17,7 @@ export default function Skills() {
   const exploring = SKILLS_SECTION.exploring ?? [];
 
   return (
-    <section id="skills" className="section-space">
+    <section id="skills" className="section-space bg-page">
       <div className="container-page">
         <Reveal>
           <SectionHeading id="skills" title={SKILLS_SECTION.title} description={SKILLS_SECTION.description} />
@@ -48,7 +51,7 @@ export default function Skills() {
         {/* ---------- Currently exploring (hidden if the list is empty) ---------- */}
         {exploring.length > 0 && (
           <Reveal className="mt-10 flex flex-wrap items-center gap-3">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">{SKILLS_SECTION.exploringLabel}</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cool">{SKILLS_SECTION.exploringLabel}</p>
             <ul className="flex flex-wrap gap-2">
               {exploring.map((item) => (
                 <li key={item}>

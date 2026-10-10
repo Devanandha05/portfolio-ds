@@ -1,10 +1,12 @@
 /**
- * Tag — small pill for technologies / skills. Uses the "cool" teal accent,
- * which the palette reserves for code and badges.
+ * Tag renders a token-colored skill or technology chip; edit src/config/tones.js
+ * to add or adjust available tones.
  */
-export default function Tag({ children }) {
+import { TONES } from "../../config/tones";
+
+export default function Tag({ children, tone = "teal" }) {
   return (
-    <span className="rounded-full border border-cool/30 bg-cool/10 px-2.5 py-1 font-mono text-[11px] text-cool">
+    <span className={`rounded-full px-2.5 py-1 font-mono text-[11px] ${TONES[tone]}`}>
       {children}
     </span>
   );

@@ -1,3 +1,7 @@
+/**
+ * Contact form styled with surface, line, input, and button tokens; submission
+ * behavior and fields remain unchanged.
+ */
 import { useState } from "react";
 import { SITE } from "../../config/site";
 import { CONTACT } from "../../data/contact";
@@ -63,7 +67,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-line/60 bg-surface/70 p-6 shadow-[0_24px_60px_rgb(var(--c-tint)/0.18)] sm:p-8"
+      className="rounded-3xl border border-line bg-surface p-6 shadow-glow-lg sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
@@ -93,7 +97,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={sending}
-          className="group inline-flex items-center gap-2 rounded-full bg-btn px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-[0_8px_24px_rgb(var(--c-btn)/0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgb(var(--c-btn)/0.5)] active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0"
+          className="group btn-shimmer inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-btn-text shadow-glow transition-all duration-300 hover:scale-[1.03] active:scale-100 disabled:opacity-60 disabled:hover:scale-100"
         >
           {sending ? form.sendingLabel : form.submitLabel}
           <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
@@ -102,7 +106,7 @@ export default function ContactForm() {
         </button>
 
         {/* Result message: announced to screen readers automatically */}
-        <p role="status" className={`text-sm ${status === "error" ? "text-btn" : "text-cool"}`}>
+        <p role="status" className={`text-sm ${status === "error" ? "text-accent" : "text-cool"}`}>
           {status === "success" && form.successMessage}
           {status === "error" && form.errorMessage}
         </p>

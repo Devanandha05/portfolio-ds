@@ -1,20 +1,22 @@
+/**
+ * Hero stage renders the portrait, animated identity, and CTAs with aurora,
+ * grid, gradient-text, and button token utilities.
+ */
 import { useRef, useState } from "react";
 import { SITE } from "../config/site";
 import { HERO } from "../data/hero";
 import useParallax from "../hooks/useParallax";
 
 /**
- * HERO — "digital identity card" layout.
- * All words live in src/data/hero.js. This file is layout + animation only.
- * Colours come from the tokens in src/index.css, never hard-coded here.
+ * Hero identity stage uses bg-aurora, bg-grid, text-gradient, btn-shimmer,
+ * and semantic color tokens; copy remains in src/data/hero.js.
  */
 
-// Maps a "tone" name from hero.js to a theme text colour.
+// Maps floating symbols to the three decorative token colors.
 const TONES = {
   accent: "text-accent",
   cool: "text-cool",
-  soft: "text-soft",
-  muted: "text-muted",
+  sun: "text-sun",
 };
 
 // Mouse parallax: moves an element by (mouse position × depth) pixels.
@@ -26,41 +28,6 @@ const parallax = (depth) => ({
 
 // Staggered entrance: element fades up after `s` seconds.
 const delay = (s) => ({ animationDelay: `${s}s` });
-
-// Theme-aware transparent colour for inline styles: tint("tint", 25) -> the --color-tint token at 25% opacity.
-// Use this anywhere a style={{}} object needs a theme colour with transparency.
-const tint = (token, percent) => `color-mix(in oklab, var(--color-${token}) ${percent}%, transparent)`;
-
-// Subtle film-grain texture (an inline SVG, so no image file is needed).
-const NOISE =
-  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
-
-// ---------- Background: faint grid + grain + soft colour wash ----------
-function HeroBackground() {
-  const fade = "radial-gradient(ellipse 70% 60% at 65% 40%, black, transparent)";
-  const gridLine = tint("line", 35);
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      {/* Thin grid lines that fade out toward the edges */}
-      <div
-        className="absolute inset-0 opacity-60"
-        style={{
-          backgroundImage: `linear-gradient(${gridLine} 1px, transparent 1px), linear-gradient(90deg, ${gridLine} 1px, transparent 1px)`,
-          backgroundSize: "56px 56px",
-          maskImage: fade,
-          WebkitMaskImage: fade,
-        }}
-      />
-      {/* Grain (inverted in dark mode so it stays visible) */}
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.07] dark:invert" style={{ backgroundImage: NOISE }} />
-      {/* Soft colour wash, top-left */}
-      <div
-        className="absolute -left-40 -top-40 h-128 w-lg rounded-full blur-3xl"
-        style={{ background: `radial-gradient(closest-side, ${tint("tint", 25)}, transparent)` }}
-      />
-    </div>
-  );
-}
 
 // ---------- Portrait: your image, or a placeholder if the file is missing ----------
 function Portrait() {
@@ -104,7 +71,7 @@ function Floater({ item }) {
           <svg viewBox="0 0 16 20" className="h-5 w-4 fill-current drop-shadow">
             <path d="M0 0l14 8.5-6 1.6L5.2 17z" />
           </svg>
-          <span className="mt-3 rounded bg-btn px-1.5 py-0.5 font-mono text-[10px] text-white">{item.label}</span>
+          <span className="mt-3 rounded bg-btn px-1.5 py-0.5 font-mono text-[10px] text-btn-text">{item.label}</span>
         </span>
       ) : (
         <span
@@ -127,7 +94,7 @@ function Terminal() {
     <div
       aria-hidden="true"
       // Glass is used here as an accent only. shadow-glow-sm = token from index.css
-      className="absolute -left-2 bottom-2 z-30 w-44 rounded-lg border border-line/60 bg-surface/75 p-3 font-mono text-[11px] leading-5 shadow-glow-sm backdrop-blur-md sm:-left-8 lg:-left-16"
+      className="absolute -left-2 bottom-2 z-30 w-44 rounded-lg border border-line bg-surface p-3 font-mono text-[11px] leading-5 shadow-glow-sm backdrop-blur-md sm:-left-8 lg:-left-16"
       style={parallax(10)}
     >
       {/* Tiny window dots */}
@@ -141,7 +108,7 @@ function Terminal() {
       </p>
       {/* Output lines appear one after another */}
       {lines.map((line, i) => (
-        <p key={line} className="animate-fade-up text-muted" style={delay(1.4 + i * 0.35)}>
+        <p key={line} className="animate-fade-up text-ink" style={delay(1.4 + i * 0.35)}>
           {line}
           {/* Blinking caret after the last line */}
           {i === lines.length - 1 && <span className="ml-0.5 inline-block animate-blink text-cool">▍</span>}
@@ -161,13 +128,12 @@ export default function Hero() {
   const hasHighlight = after !== undefined;
 
   return (
-    <section ref={sectionRef} id="home" className="relative isolate min-h-screen overflow-hidden pb-20 pt-28 lg:pt-32">
-      <HeroBackground />
+    <section ref={sectionRef} id="home" className="relative isolate min-h-screen overflow-hidden bg-aurora bg-grid bg-page pb-20 pt-28 lg:pt-32">
 
       <div className="container-page relative">
         {/* ---- Top row: availability + ID label ---- */}
         <div className="flex items-center justify-between animate-fade-up">
-          <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+          <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink">
             {SITE.status.show && (
               <span className="relative flex h-2 w-2" aria-hidden="true">
                 <span className="absolute inset-0 animate-soft-pulse rounded-full bg-cool motion-reduce:animate-none" />
@@ -176,7 +142,7 @@ export default function Hero() {
             )}
             {HERO.eyebrow}
           </p>
-          <p className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-muted sm:block">{HERO.idLabel}</p>
+          <p className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-ink sm:block">{HERO.idLabel}</p>
         </div>
 
         {/* ---- Giant name: letters rise in one by one ----
@@ -201,7 +167,7 @@ export default function Hero() {
               {HERO.roleLine}
             </p>
 
-            <p className="mt-6 max-w-xl animate-fade-up text-lg leading-relaxed text-ink/80 sm:text-xl" style={delay(0.85)}>
+            <p className="mt-6 max-w-xl animate-fade-up text-lg leading-relaxed text-ink sm:text-xl" style={delay(0.85)}>
               {hasHighlight ? (
                 <>
                   {before}
@@ -217,7 +183,7 @@ export default function Hero() {
               {/* Primary button: arrow nudges right on hover. shadow-cta / shadow-cta-hover = tokens in index.css */}
               <a
                 href={HERO.primaryCta.href}
-                className="group inline-flex items-center gap-2 rounded-full bg-btn px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-cta transition-all duration-300 hover:-translate-y-0.5 hover:shadow-cta-hover active:translate-y-0"
+                className="group btn-shimmer inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-btn-text shadow-glow transition-all duration-300 hover:scale-[1.03] active:scale-100"
               >
                 {HERO.primaryCta.label}
                 <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -226,7 +192,7 @@ export default function Hero() {
               {/* Secondary button: arrow nudges down on hover */}
               <a
                 href={HERO.secondaryCta.href}
-                className="group inline-flex items-center gap-2 rounded-full border border-line/70 px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-soft hover:text-accent active:translate-y-0"
+                className="group inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-ink transition-all duration-300 hover:border-soft hover:text-accent"
               >
                 {HERO.secondaryCta.label}
                 <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-1">↓</span>
@@ -243,8 +209,8 @@ export default function Hero() {
               {/* Glow behind the portrait (-inset-[12%] = extends 12% beyond the box on every side) */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -inset-[12%]"
-                style={{ background: `radial-gradient(closest-side, ${tint("tint", 55)}, transparent 70%)`, ...parallax(6) }}
+                style={parallax(6)}
+                className="pointer-events-none absolute -inset-[12%] rounded-full bg-tint/30 blur-3xl"
               />
               {/* Orbit rings (very thin, one slowly rotating) */}
               <div aria-hidden="true" className="pointer-events-none absolute inset-[6%] rounded-full border border-line/50" />

@@ -1,3 +1,6 @@
+/**
+ * Email link and copy control styled with accent, ink, and line tokens.
+ */
 import { useEffect, useRef, useState } from "react";
 import { SITE } from "../../config/site";
 
@@ -35,7 +38,7 @@ export default function CopyEmail() {
       {/* Email with an underline that draws itself on hover */}
       <a
         href={`mailto:${SITE.email}`}
-        className="break-all bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-bottom bg-no-repeat pb-1 font-display text-2xl text-ink transition-[background-size,color] duration-500 hover:bg-[length:100%_1px] hover:text-accent sm:text-3xl"
+        className="relative break-all pb-1 font-display text-2xl text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100 sm:text-3xl"
       >
         {SITE.email}
       </a>

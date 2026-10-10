@@ -1,3 +1,7 @@
+/**
+ * Navbar renders responsive navigation with surface/line tokens and a gradient
+ * active indicator when the page is scrolled.
+ */
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SITE, NAV_ITEMS } from "../../config/site";
 import useActiveSection from "../../hooks/useActiveSection";
@@ -6,7 +10,8 @@ import ThemeToggle from "./ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
 /**
- * NAVBAR
+ * Fixed portfolio navigation with a transparent-to-surface scroll state,
+ * tokenized active gradient, and muted mono numbering.
  *
  *  Desktop (lg and up):  [ DS.        01 WORK  02 SKILLS ...        ● OPEN TO WORK  ☾ ]
  *  Mobile:               [ DS.                                                   ●   ]
@@ -74,12 +79,12 @@ export default function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-40 border-b transition-[background-color,border-color,padding,backdrop-filter] duration-300 ${
           scrolled
-            ? "border-line/60 bg-page/75 py-3 backdrop-blur-md" // glass is used only here, as an accent
+            ? "border-line bg-surface/80 py-3 backdrop-blur-md"
             : "border-transparent bg-transparent py-5"
         }`}
       >
         {/* Mobile: logo left / status right.  Desktop: 3-column grid (logo | nav | status) */}
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+        <div className="container-page flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* ---------- LEFT: logo mark ---------- */}
           <a href="#home" aria-label="Back to top" className="justify-self-start leading-none">
             <span className="font-display text-2xl font-bold tracking-tight text-ink">
@@ -108,7 +113,7 @@ export default function Navbar() {
                     className="group flex items-baseline gap-1.5 px-3 py-2 text-[13px] font-medium uppercase tracking-wider text-muted transition-colors hover:text-ink aria-[current=location]:text-ink"
                   >
                     {SITE.showNumbers && (
-                      <span className="font-mono text-[10px] text-soft/80 transition-colors group-hover:text-accent group-aria-[current=location]:text-accent">
+                      <span className="font-mono text-[10px] text-muted transition-colors group-hover:text-accent group-aria-[current=location]:text-accent">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     )}
@@ -120,7 +125,7 @@ export default function Navbar() {
               {/* The sliding active-section dot (decorative) */}
               <span
               aria-hidden="true"
-              className={`pointer-events-none absolute -bottom-0.5 left-0 h-1 w-1 rounded-full bg-accent shadow-[0_0_8px_var(--color-soft)] duration-500 ease-out ${
+              className={`pointer-events-none absolute -bottom-0.5 left-0 h-1 w-1 rounded-full bg-gradient-brand duration-500 ease-out ${
               dot.animate ? "transition-[transform,opacity]" : "transition-opacity"
             }`}
               style={{ transform: `translateX(${dot.x}px)`, opacity: dot.visible ? 1 : 0 }}
@@ -141,7 +146,7 @@ export default function Navbar() {
         <div
           ref={progressRef}
           aria-hidden="true"
-          className={`absolute inset-x-0 -bottom-px h-px origin-left bg-accent transition-opacity duration-300 ${
+          className={`absolute inset-x-0 -bottom-px h-px origin-left bg-gradient-brand transition-opacity duration-300 ${
             scrolled ? "opacity-100" : "opacity-0"
           }`}
           style={{ transform: "scaleX(0)" }}

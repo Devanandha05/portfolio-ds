@@ -1,3 +1,7 @@
+/**
+ * Footer renders navigation and contact links on the surface token with a
+ * border-line divider and accent link treatments.
+ */
 import { SITE, NAV_ITEMS } from "../../config/site";
 import { HERO } from "../../data/hero";
 import { SOCIALS, FOOTER } from "../../data/socials";
@@ -5,7 +9,8 @@ import Reveal from "../ui/Reveal";
 import StatusBadge from "../Navbar/StatusBadge";
 
 /**
- * FOOTER
+ * Footer uses a surface background, line divider, ink/muted text, and accent
+ * links for navigation and contact details.
  *
  *  [ DS.  tagline + status ]   [ Navigate ]   [ Connect: email + socials ]
  *  ─────────────────────────────────────────────────────────────────────
@@ -27,7 +32,7 @@ const years = currentYear > FOOTER.startYear ? `${FOOTER.startYear}–${currentY
 
 export default function Footer() {
   return (
-    <footer className="relative">
+    <footer className="relative border-t border-line bg-surface">
       {/* Thin hairline that fades in from both sides */}
       <div aria-hidden="true" className="h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
@@ -52,9 +57,9 @@ export default function Footer() {
               <ul className="mt-5 flex flex-col gap-3">
                 {NAV_ITEMS.map((item, i) => (
                   <li key={item.id}>
-                    <a href={`#${item.id}`} className="group inline-flex items-baseline gap-2 text-ink transition-colors hover:text-accent">
+                    <a href={`#${item.id}`} className="group relative inline-flex items-baseline gap-2 text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100">
                       {SITE.showNumbers && (
-                        <span className="font-mono text-[10px] text-soft transition-colors group-hover:text-accent">
+                        <span className="font-mono text-[10px] text-muted transition-colors group-hover:text-accent">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                       )}
@@ -73,7 +78,7 @@ export default function Footer() {
               {/* Email with an underline that draws itself on hover */}
               <a
                 href={`mailto:${SITE.email}`}
-                className="mt-5 inline-block break-all bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-bottom bg-no-repeat pb-1 font-display text-2xl text-ink transition-[background-size,color] duration-500 hover:bg-[length:100%_1px] hover:text-accent sm:text-3xl"
+                className="relative mt-5 inline-block break-all pb-1 font-display text-2xl text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100 sm:text-3xl"
               >
                 {SITE.email}
               </a>
@@ -85,7 +90,7 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group/link inline-flex items-center gap-1 text-sm font-semibold text-ink transition-colors hover:text-accent"
+                      className="group/link relative inline-flex items-center gap-1 text-sm font-semibold text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100"
                     >
                       {social.label}
                       <span

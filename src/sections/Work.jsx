@@ -1,3 +1,7 @@
+/**
+ * Work section applies the elevated section rhythm and renders token-themed
+ * project cards and category controls.
+ */
 import { useState } from "react";
 import { PROJECTS, WORK_SECTION } from "../data/projects";
 import SectionHeading from "../components/ui/SectionHeading";
@@ -5,7 +9,7 @@ import Reveal from "../components/ui/Reveal";
 import ProjectCard from "../components/work/ProjectCard";
 
 /**
- * WORK — id="work" (matches the navbar item).
+ * Work section with elevated rhythm, a tokenized category filter, and project cards.
  *
  * Content comes from src/data/projects.js. This file only handles layout and the
  * category filter. Filter buttons are generated from the categories you use,
@@ -22,7 +26,7 @@ export default function Work() {
   const visibleProjects = filter === ALL ? PROJECTS : PROJECTS.filter((project) => project.category === filter);
 
   return (
-    <section id="work" className="section-space">
+    <section id="work" className="section-space bg-elevated/40">
       <div className="container-page">
         <Reveal>
           <SectionHeading id="work" title={WORK_SECTION.title} description={WORK_SECTION.description} />
@@ -75,7 +79,7 @@ export default function Work() {
             href={WORK_SECTION.moreLink.href}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full border border-line/70 px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-soft hover:text-accent"
+            className="group inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-ink transition-all duration-300 hover:border-soft hover:text-accent"
           >
             {WORK_SECTION.moreLink.label}
             <span

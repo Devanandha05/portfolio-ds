@@ -1,3 +1,7 @@
+/**
+ * App composes the portfolio sections; the skip link uses the shared button
+ * fill/text tokens for a readable keyboard focus state.
+ */
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./sections/Hero";
 import Work from "./sections/Work";
@@ -23,7 +27,7 @@ export default function App() {
       {/* Accessibility: lets keyboard users skip the navbar. Visible only when focused. */}
       <a
         href="#work"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-70 focus:rounded-md focus:bg-btn focus:px-4 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-70 focus:rounded-md focus:bg-btn focus:px-4 focus:py-2 focus:text-btn-text"
       >
         Skip to content
       </a>

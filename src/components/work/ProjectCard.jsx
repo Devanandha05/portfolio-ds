@@ -1,14 +1,19 @@
+/**
+ * Project card uses surface/line tokens, card-lift, gradient top edge, and
+ * tone-based technology tags.
+ */
 import { useRef, useState } from "react";
 import Tag from "../ui/Tag";
 
 /**
- * ProjectCard — one project in the Work grid.
+ * ProjectCard renders project content in a bg-surface card with border-line,
+ * card-lift, a bg-gradient-brand top edge, and tone-based technology chips.
  *
  * Normal card: image on top, text below.
  * Featured card (project.featured = true): wide, image left and text right on desktop.
  *
- * Micro-animations: card lifts on hover, a soft light follows the mouse inside it,
- * the image zooms slowly, and link arrows nudge.
+ * Micro-animations: card lifts on hover with a soft token tint, the image zooms
+ * slowly, and link arrows nudge.
  *
  * @param {object} project - one entry from src/data/projects.js
  * @param {number} index   - position in the full list (used for the 01, 02... number)
@@ -20,9 +25,6 @@ export default function ProjectCard({ project, index }) {
   const number = String(index + 1).padStart(2, "0");
   const showImage = project.image && !imageFailed;
   const featured = Boolean(project.featured);
-
-  // Mouse-follow light: store the pointer position as CSS variables on the card.
-  // (Set directly on the element, so React doesn't re-render while the mouse moves.)
   const handlePointerMove = (e) => {
     const box = cardRef.current.getBoundingClientRect();
     cardRef.current.style.setProperty("--x", `${e.clientX - box.left}px`);
@@ -33,17 +35,18 @@ export default function ProjectCard({ project, index }) {
     <article
       ref={cardRef}
       onPointerMove={handlePointerMove}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line/60 bg-surface/70 transition-all duration-300 hover:-translate-y-1 hover:border-soft hover:shadow-[0_18px_50px_rgb(var(--c-tint)/0.25)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface card-lift ${
         featured ? "md:flex-row" : ""
       }`}
     >
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 z-10 h-px bg-gradient-brand" />
       {/* Soft light that follows the mouse (only visible on hover) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 bg-current text-tint opacity-0 transition-opacity duration-300 group-hover:opacity-10"
         style={{
-          background:
-            "radial-gradient(360px circle at var(--x, 50%) var(--y, 50%), rgb(var(--c-tint) / 0.18), transparent 60%)",
+          maskImage:
+            "radial-gradient(360px circle at var(--x, 50%) var(--y, 50%), currentColor, transparent 60%)",
         }}
       />
 
@@ -63,16 +66,7 @@ export default function ProjectCard({ project, index }) {
           />
         ) : (
           // Placeholder used when a project has no screenshot yet
-          <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-tint/30 via-elevated to-surface transition-transform duration-700 group-hover:scale-105">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-50"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgb(var(--c-line) / 0.4) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--c-line) / 0.4) 1px, transparent 1px)",
-                backgroundSize: "32px 32px",
-              }}
-            />
+          <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-tint/30 via-elevated to-surface bg-grid transition-transform duration-700 group-hover:scale-105">
             <span className="relative font-display text-7xl font-bold text-accent/30">{number}</span>
           </div>
         )}
@@ -108,7 +102,7 @@ export default function ProjectCard({ project, index }) {
         <ul className="mt-5 flex flex-wrap gap-2" aria-label="Technologies used">
           {project.tech.map((item) => (
             <li key={item}>
-              <Tag>{item}</Tag>
+              <Tag tone={project.tone}>{item}</Tag>
             </li>
           ))}
         </ul>
@@ -122,7 +116,7 @@ export default function ProjectCard({ project, index }) {
                 href={link.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group/link inline-flex items-center gap-1 text-sm font-semibold text-ink transition-colors hover:text-accent"
+                className="group/link relative inline-flex items-center gap-1 text-sm font-semibold text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100"
               >
                 {link.label}
                 <span

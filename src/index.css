@@ -5,10 +5,23 @@
  *   1. Tailwind import + dark-mode switch
  *   2. Light-mode colours, fonts, animations  (@theme)
  *   3. Dark-mode colour overrides             (.dark)
- *   4. Base styles + custom utilities
+ *   4. Base styles
+ *   5. Custom utilities (layout, textures, gradients, glows, micro-interactions)
  *
- * To re-theme the site: edit the hex values in section 2 (light) and section 3 (dark).
- * Usage in components: bg-page  text-ink  text-muted  border-line/60  text-accent ...
+ * HOW TO RE-THEME
+ *   Edit the hex values in section 2 (light) and section 3 (dark). That's it.
+ *   Components never use hex codes, only the token names below.
+ *
+ * TOKEN CHEAT-SHEET (use as bg-*, text-*, border-*, from-*, to-* ...)
+ *   page, surface, elevated   -> backgrounds
+ *   line                      -> thin borders
+ *   ink, muted                -> text
+ *   accent                    -> links, headings
+ *   btn, btn-text             -> button fill + the text ON the button
+ *   soft                      -> hover, tags
+ *   tint                      -> glows
+ *   cool                      -> the cool counterpoint (teal): code, badges, "open to work" dot
+ *   sun                       -> golden sparks / highlights
  *
  * Not needed anymore: tailwind.config.js and styles/theme.css (delete both,
  * and remove `import "./styles/theme.css"` from src/main.jsx).
@@ -24,34 +37,42 @@
 
 /* ============================================================
    2. DESIGN TOKENS + LIGHT MODE (default)
-   Palette: "Mint + Peach"
+   Palette: warm blush / peach / rose / terracotta + a teal counterpoint
    ============================================================ */
 @theme {
-  /* ---------- Colours: LIGHT MODE ---------- */
-/*  --color-page:     #f6fffb; /* page background */
-/*  --color-surface:  #ffffff; /* cards, navbar */
-/*  --color-elevated: #e3fbf1; /* elevated surface */
-/*  --color-line:     #9eebd0; /* thin borders */
-/*  --color-ink:      #0b1f1a; /* primary text */
-/*  --color-muted:    #4b6b61; /* muted text */
-/*  --color-accent:   #0b7a5c; /* links, headings */
-/*  --color-btn:      #34d399; /* button fill */
-/*  --color-btn-text: #0b1f1a; /* text ON buttons (dark, because mint is bright) */
-/*  --color-soft:     #ff9e80; /* hover, tags: peach */
-/*  --color-tint:     #ffd1bf; /* glows, gradients */
-/*  --color-cool:     #e11d48; /* code, badges, pop accent (name kept so components don't change) */
+  /* ---------- Core colours: LIGHT MODE ---------- */
+  --color-page:     #FFF8F5; /* page background — warm blush */
+  --color-surface:  #FFFFFF; /* cards, navbar — clean white */
+  --color-elevated: #FCE8CD; /* elevated surface — soft peach */
+  --color-line:     #FBC096; /* thin borders — peach */
+  --color-ink:      #0a0908; /* primary text */
+  --color-muted:    #805D58; /* muted text — dusty terracotta */
+  --color-accent:   #993E35; /* links, headings — deep terracotta */
+  --color-btn:      #F46897; /* button fill — rose pink */
+  --color-btn-text: #0a0908; /* text ON buttons (dark: white on rose is hard to read) */
+  --color-soft:     #FBC096; /* hover, tags — warm peach */
+  --color-tint:     #FCE8CD; /* glows — pale peach */
+  --color-cool:     #0b7f70; /* cool counterpoint — teal: code, badges, "open to work" dot */
+  --color-sun:      #FFB84D; /* golden sparks, highlights (decorative, not for body text) */
 
---color-page:     #FFF8F5; /* page background — warm blush */
---color-surface:  #FFFFFF; /* cards, navbar — clean white */
---color-elevated: #FCE8CD; /* elevated surface — soft peach */
---color-line:     #FBC096; /* thin borders — peach */
---color-ink:      #0a0908; /* primary text — unchanged */
---color-muted:    #805D58; /* muted text — dusty terracotta */
---color-accent:   #993E35; /* links, headings — deep terracotta */
---color-btn:      #F46897; /* button fill — rose pink */
---color-soft:     #FBC096; /* hover, tags — warm peach */
---color-tint:     #FCE8CD; /* glows, gradients — pale peach */
---color-cool:     #993E35; /* code, badges, "available" */
+  /* ---------- Brand gradient for FILLS (buttons, bars, underlines) ----------
+     Bright on purpose; pair with dark text. Used by .bg-gradient-brand */
+  --color-grad-from: #F46897; /* rose  */
+  --color-grad-via:  #FBC096; /* peach */
+  --color-grad-to:   #FFB84D; /* gold  */
+
+  /* ---------- Brand gradient for TEXT (hero name, big headings) ----------
+     Deeper shades in light mode so the text stays readable on a light page.
+     Used by .text-gradient */
+  --color-gtext-from: #993E35; /* terracotta */
+  --color-gtext-via:  #E2457A; /* deep rose  */
+  --color-gtext-to:   #D9730D; /* deep amber */
+
+  /* ---------- Aurora glow blobs (soft coloured light behind sections) ----------
+     Used by .bg-aurora */
+  --color-glow-1: #F46897; /* rose  */
+  --color-glow-2: #FBC096; /* peach */
+  --color-glow-3: #5eead4; /* mint-teal */
 
   /* ---------- Fonts (loaded in index.html from Google Fonts) ---------- */
   --font-display: "Bricolage Grotesque", system-ui, sans-serif; /* logo + big headings */
@@ -93,25 +114,49 @@
   @keyframes spin-slow {
     to { transform: rotate(360deg); }
   }
+
+  /* Slow colour drift for gradient text. Add together with .text-gradient:
+     <h1 className="text-gradient animate-gradient-shift"> */
+  --animate-gradient-shift: gradient-shift 8s ease-in-out infinite;
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
 }
 
 /* ============================================================
    3. DARK MODE OVERRIDES
    Same variable names as above, new values. Applied when <html class="dark">.
    Every colour that differs from light mode is listed here.
+   (The FILL gradient --color-grad-* is the same in both modes, so it's absent.)
    ============================================================ */
+.dark {
+  /* ---------- Core colours: DARK MODE ---------- */
+  --color-page:     #160D10; /* page background — deep rose-black */
+  --color-surface:  #211216; /* cards, navbar — dark burgundy */
+  --color-elevated: #301A1C; /* elevated surface — deep terracotta */
+  --color-line:     #63312F; /* thin borders — muted terracotta */
+  --color-ink:      #fbeff3; /* primary text */
+  --color-muted:    #D9AAA7; /* muted text — dusty rose */
+  --color-accent:   #FBC096; /* links, headings — luminous peach */
+  --color-btn-text: #160D10; /* text ON buttons */
+  --color-soft:     #F46897; /* hover, tags — vibrant rose */
+  --color-tint:     rgba(244, 104, 151, 0.3); /* glows */
+  --color-cool:     #5eead4; /* cool counterpoint — bright teal */
+  --color-sun:      #FFD27A; /* golden sparks */
 
-.dark{
---color-page:     #160D10; /* page background — deep rose-black */
---color-surface:  #211216; /* cards, navbar — dark burgundy */
---color-elevated: #301A1C; /* elevated surface — deep terracotta */
---color-line:     #63312F; /* thin borders — muted terracotta */
---color-ink:      #fbeff3; /* primary text — unchanged */
---color-muted:    #D9AAA7; /* muted text — dusty rose */
---color-accent:   #FBC096; /* links, headings — luminous peach */
---color-soft:     #F46897; /* hover, tags — vibrant rose */
---color-tint:     rgba(244, 104, 151, 0.3); /* glows, gradients */
---color-cool:     #FCE8CD; /* code, badges, "available" */
+  /* ---------- Gradient for TEXT: bright shades on dark ---------- */
+  --color-gtext-from: #F46897; /* rose  */
+  --color-gtext-via:  #FBC096; /* peach */
+  --color-gtext-to:   #FFD27A; /* gold  */
+
+  /* ---------- Aurora glow blobs: dark mode ---------- */
+  --color-glow-1: #F46897; /* rose  */
+  --color-glow-2: #F59E6B; /* warm orange-peach */
+  --color-glow-3: #2dd4bf; /* teal  */
+
+  /* How strong the aurora glows are (percentage). Lower = subtler. */
+  --aurora-opacity: 26%;
 }
 
 /* ============================================================
@@ -170,6 +215,8 @@
    5. CUSTOM UTILITIES
    ============================================================ */
 
+/* ---------- Layout ---------- */
+
 /* Reusable page width + side padding. Use <div className="container-page"> in sections. */
 @utility container-page {
   @apply mx-auto w-full max-w-6xl px-6;
@@ -180,11 +227,104 @@
   @apply py-24 lg:py-32;
 }
 
-/* OPTIONAL: very subtle grid texture for hero / section backgrounds.
+/* ---------- Backgrounds & textures ---------- */
+
+/* Very subtle grid texture for hero / section backgrounds.
    Use as className="bg-grid". Colour follows the theme via --color-line. */
 @utility bg-grid {
   background-image:
     linear-gradient(to right,  color-mix(in oklab, var(--color-line) 35%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 35%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
+}
+
+/* Soft coloured "aurora" glows (rose / peach / teal) behind a hero or section.
+   The element needs `relative` (and usually `overflow-hidden`).
+   Combine with the grid:  className="relative overflow-hidden bg-aurora bg-grid"
+   Strength: --aurora-opacity (30% light by default, 26% in dark mode). */
+@utility bg-aurora {
+  background-image:
+    radial-gradient(40rem 28rem at 12% 0%,
+      color-mix(in oklab, var(--color-glow-1) var(--aurora-opacity, 30%), transparent), transparent 70%),
+    radial-gradient(36rem 26rem at 92% 8%,
+      color-mix(in oklab, var(--color-glow-2) calc(var(--aurora-opacity, 30%) + 10%), transparent), transparent 70%),
+    radial-gradient(34rem 24rem at 60% 95%,
+      color-mix(in oklab, var(--color-glow-3) calc(var(--aurora-opacity, 30%) - 8%), transparent), transparent 70%);
+}
+
+/* ---------- Gradients ---------- */
+
+/* Gradient FILL: buttons, thin bars, scroll-progress line, card top-edges.
+   Remember dark text on it (text-btn-text). */
+@utility bg-gradient-brand {
+  background-image: linear-gradient(
+    110deg,
+    var(--color-grad-from),
+    var(--color-grad-via) 55%,
+    var(--color-grad-to)
+  );
+}
+
+/* Gradient TEXT: hero name, big headings. Add `animate-gradient-shift` for a slow colour drift. */
+@utility text-gradient {
+  background-image: linear-gradient(
+    110deg,
+    var(--color-gtext-from),
+    var(--color-gtext-via) 55%,
+    var(--color-gtext-to)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------- Coloured shadows (instead of grey ones) ---------- */
+
+/* Rose glow under buttons / highlighted cards */
+@utility shadow-glow {
+  box-shadow: 0 10px 30px -10px color-mix(in oklab, var(--color-btn) 55%, transparent);
+}
+
+/* Bigger, softer version for hero elements */
+@utility shadow-glow-lg {
+  box-shadow: 0 24px 60px -18px color-mix(in oklab, var(--color-btn) 50%, transparent);
+}
+
+/* ---------- Micro-interactions ---------- */
+
+/* Card that lifts, gets a peach/rose border and a coloured shadow on hover.
+   Use on a card that already has `border border-line bg-surface rounded-2xl`. */
+@utility card-lift {
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-soft);
+    box-shadow: 0 18px 40px -16px color-mix(in oklab, var(--color-btn) 45%, transparent);
+  }
+}
+
+/* Light sweep that glides across a button on hover.
+   Use on a button:  className="btn-shimmer bg-btn text-btn-text ..." */
+@utility btn-shimmer {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.45) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+  }
+  &:hover::after {
+    transform: translateX(120%);
+  }
 }

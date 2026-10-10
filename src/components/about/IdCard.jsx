@@ -1,3 +1,7 @@
+/**
+ * Identity card surface using bg-surface, bg-elevated, border-line, and
+ * token-based tint lighting; portrait artwork colors remain unchanged.
+ */
 import { useRef, useState } from "react";
 import { SITE } from "../../config/site";
 import { ABOUT } from "../../data/about";
@@ -15,7 +19,7 @@ import { HERO } from "../../data/hero";
  *   └──────────────────────────┘
  *
  * Micro-animations: on desktop the card tilts a few degrees toward your mouse and
- * a soft light follows it. Touch screens and reduced-motion users get a still card.
+ * token glow appears on hover. Touch screens and reduced-motion users get a still card.
  * All text comes from src/data/about.js.
  */
 
@@ -38,8 +42,6 @@ export default function IdCard() {
     const x = (e.clientX - box.left) / box.width; // 0 → 1 across the card
     const y = (e.clientY - box.top) / box.height; // 0 → 1 down the card
 
-    el.style.setProperty("--x", `${x * 100}%`);
-    el.style.setProperty("--y", `${y * 100}%`);
     el.style.transform = `perspective(900px) rotateX(${(0.5 - y) * MAX_TILT}deg) rotateY(${(x - 0.5) * MAX_TILT}deg)`;
   };
 
@@ -53,15 +55,15 @@ export default function IdCard() {
       ref={cardRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="group relative overflow-hidden rounded-3xl border border-line/60 bg-surface/80 shadow-[0_24px_60px_rgb(var(--c-tint)/0.25)] transition-transform duration-200 ease-out will-change-transform"
+      className="group relative overflow-hidden rounded-3xl border border-line bg-surface shadow-glow-lg transition-transform duration-200 ease-out will-change-transform"
     >
       {/* Soft light that follows the mouse */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 bg-current text-tint opacity-0 transition-opacity duration-300 group-hover:opacity-10"
         style={{
-          background:
-            "radial-gradient(380px circle at var(--x, 50%) var(--y, 30%), rgb(var(--c-tint) / 0.22), transparent 60%)",
+          maskImage:
+            "radial-gradient(380px circle at var(--x, 50%) var(--y, 30%), currentColor, transparent 60%)",
         }}
       />
 

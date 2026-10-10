@@ -1,5 +1,6 @@
 /**
- * HERO DATA — edit the words, portrait and floating symbols here.
+ * Hero copy, portrait reference, and floating symbol content; symbol tones
+ * use text-accent, text-cool, and decorative-only text-sun tokens in Hero.jsx.
  * Hero.jsx never contains your copy.
  */
 
@@ -39,7 +40,7 @@ export const HERO = {
    *  x, y      position inside the portrait area (percent; negatives sit outside it)
    *  depth     how far it shifts with the mouse (bigger = moves more = feels closer)
    *  duration  seconds for one float cycle;  delay = start offset in seconds
-   *  tone      "accent" | "cool" | "soft" | "muted"  (theme colours)
+   *  tone      "accent" | "cool" | "sun"  (decorative theme colors)
    *  chip      true = small bordered box, false = plain text
    *  layer     "back" (behind portrait) or "front" (in front of it)
    *  type      "cursor" makes the mini mouse pointer with a name tag (uses `label`)
@@ -48,9 +49,9 @@ export const HERO = {
   floaters: [
     { id: "braces", text: "{ }", x: "-4%", y: "14%", depth: 26, duration: 7, delay: 0, tone: "accent", chip: true, layer: "back" },
     { id: "tag", text: "</>", x: "82%", y: "6%", depth: 34, duration: 8, delay: 1.2, tone: "cool", chip: true, layer: "front" },
-    { id: "ai", text: "AI", x: "90%", y: "44%", depth: 22, duration: 6.5, delay: 0.6, tone: "accent", chip: true, layer: "front" },
-    { id: "bin1", text: "01", x: "3%", y: "46%", depth: 16, duration: 9, delay: 2, tone: "muted", chip: false, layer: "back" },
-    { id: "bin2", text: "10", x: "88%", y: "90%", depth: 14, duration: 10, delay: 0.3, tone: "muted", chip: false, layer: "back" },
-    { id: "cursor", type: "cursor", label: "Devanandha", x: "66%", y: "76%", depth: 40, duration: 8, delay: 1, tone: "accent", layer: "front" },
+    { id: "ai", text: "AI", x: "90%", y: "44%", depth: 22, duration: 6.5, delay: 0.6, tone: "sun", chip: true, layer: "front" },
+    { id: "bin1", text: "01", x: "3%", y: "46%", depth: 16, duration: 9, delay: 2, tone: "cool", chip: false, layer: "back" },
+    { id: "bin2", text: "10", x: "88%", y: "90%", depth: 14, duration: 10, delay: 0.3, tone: "accent", chip: false, layer: "back" },
+    { id: "cursor", type: "cursor", label: "Devanandha", x: "66%", y: "76%", depth: 40, duration: 8, delay: 1, tone: "sun", layer: "front" },
   ],
 };

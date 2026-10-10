@@ -1,3 +1,6 @@
+/**
+ * Contact section combines the elevated aurora surface, accent links, and form.
+ */
 import { SITE } from "../config/site";
 import { CONTACT } from "../data/contact";
 import { SOCIALS } from "../data/socials";
@@ -7,7 +10,7 @@ import CopyEmail from "../components/contact/CopyEmail";
 import ContactForm from "../components/contact/ContactForm";
 
 /**
- * CONTACT — id="contact" (matches the navbar item).
+ * Contact form and links on an aurora-tinted elevated section surface.
  *
  *   left:  headline → email (click to write, or copy) → social links → availability
  *   right: message form
@@ -17,17 +20,10 @@ import ContactForm from "../components/contact/ContactForm";
  */
 export default function Contact() {
   return (
-    <section id="contact" className="section-space relative overflow-hidden">
-      {/* Soft colour glow behind the section (decorative) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-40 top-1/3 -z-10 h-[30rem] w-[30rem] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(closest-side, rgb(var(--c-tint) / 0.25), transparent)" }}
-      />
-
+    <section id="contact" className="section-space relative overflow-hidden border-t border-line bg-elevated/40 bg-aurora">
       <div className="container-page">
         <Reveal>
-          <SectionHeading id="contact" title={CONTACT.title} description={CONTACT.description} />
+          <SectionHeading id="contact" title={CONTACT.title} description={CONTACT.description} descriptionClassName="text-ink" />
         </Reveal>
 
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
@@ -37,12 +33,12 @@ export default function Contact() {
               <h3 className="font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">
                 {CONTACT.headline}
               </h3>
-              <p className="mt-4 max-w-md text-lg leading-relaxed text-muted">{CONTACT.text}</p>
+              <p className="mt-4 max-w-md text-lg leading-relaxed text-ink">{CONTACT.text}</p>
             </Reveal>
 
             <Reveal delay={100} className="mt-8">
               <CopyEmail />
-              {CONTACT.note && <p className="mt-3 text-sm text-muted">{CONTACT.note}</p>}
+              {CONTACT.note && <p className="mt-3 text-sm text-ink">{CONTACT.note}</p>}
             </Reveal>
 
             <Reveal delay={200} className="mt-8 flex flex-col gap-6">
@@ -53,7 +49,7 @@ export default function Contact() {
                       href={social.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group inline-flex items-center gap-1 text-sm font-semibold text-ink transition-colors hover:text-accent"
+                      className="group relative inline-flex items-center gap-1 text-sm font-semibold text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100"
                     >
                       {social.label}
                       <span aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
@@ -66,7 +62,7 @@ export default function Contact() {
 
               {/* Availability (hidden if SITE.status.show is false) */}
               {SITE.status.show && (
-                <p className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                <p className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink">
                   <span aria-hidden="true" className="relative flex h-2 w-2">
                     <span className="absolute inset-0 animate-soft-pulse rounded-full bg-cool motion-reduce:animate-none" />
                     <span className="relative h-2 w-2 rounded-full bg-cool" />

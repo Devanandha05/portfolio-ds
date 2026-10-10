@@ -1,8 +1,12 @@
+/**
+ * Timeline entry uses a lifted surface card with line, accent, and cool tokens.
+ */
 import { useRef } from "react";
 import Tag from "../ui/Tag";
 
 /**
- * ExperienceItem — one stop on the timeline (rendered inside an <li> by the Experience section).
+ * ExperienceItem renders a timeline entry in a bg-surface card using border-line,
+ * card-lift, and token-colored status dots and technology chips.
  *
  *   desktop:  [ period ]  ●  [ role / company / summary / bullets / tags ]
  *   mobile:   ●  period above the role, everything stacked
@@ -10,15 +14,13 @@ import Tag from "../ui/Tag";
  * The vertical line is drawn per item (from its dot down to the next one), so the
  * timeline grows automatically as you add entries. `isLast` hides the final segment.
  * Micro-animations: the current role's dot pulses, the dot grows and the card
- * lights up softly on hover, and a soft light follows the mouse.
+ * lights up softly on hover with a token-based surface tint.
  *
  * @param {object}  item   - one entry from src/data/experience.js
  * @param {boolean} isLast - true for the final entry (no line below it)
  */
 export default function ExperienceItem({ item, isLast }) {
   const cardRef = useRef(null);
-
-  // Mouse-follow light, same effect as the project and skill cards.
   const handlePointerMove = (e) => {
     const box = cardRef.current.getBoundingClientRect();
     cardRef.current.style.setProperty("--x", `${e.clientX - box.left}px`);
@@ -49,15 +51,15 @@ export default function ExperienceItem({ item, isLast }) {
         <div
           ref={cardRef}
           onPointerMove={handlePointerMove}
-          className="relative overflow-hidden rounded-2xl border border-line/60 bg-surface/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-soft hover:shadow-[0_18px_50px_rgb(var(--c-tint)/0.2)] sm:p-7"
+          className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 card-lift sm:p-7"
         >
           {/* Soft light that follows the mouse (only visible on hover) */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            className="pointer-events-none absolute inset-0 bg-current text-tint opacity-0 transition-opacity duration-300 group-hover:opacity-10"
             style={{
-              background:
-                "radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), rgb(var(--c-tint) / 0.16), transparent 60%)",
+              maskImage:
+                "radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), currentColor, transparent 60%)",
             }}
           />
 

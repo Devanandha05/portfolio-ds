@@ -1,3 +1,11 @@
+/**
+ * Theme toggle keeps the html dark class in sync and renders currentColor
+ * icons with a smooth 300ms token-colored control.
+ */
+/**
+ * Theme switch uses currentColor icons and line/accent tokens with a smooth
+ * 300ms transition.
+ */
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "theme"; // where the choice is remembered in the browser
@@ -47,7 +55,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-      className="relative flex h-9 w-9 items-center justify-center rounded-full border border-line/60 text-muted transition-colors hover:border-soft hover:text-accent"
+      className="relative flex h-9 w-9 items-center justify-center rounded-full border border-line bg-surface/60 text-accent transition-colors duration-300 hover:border-soft"
     >
       {/* Sun (shown in dark mode, click to go light) */}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"

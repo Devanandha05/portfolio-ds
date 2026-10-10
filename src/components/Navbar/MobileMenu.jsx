@@ -1,9 +1,15 @@
+/**
+ * Mobile menu uses the shared button, surface, aurora, and text tokens.
+ */
 import { useEffect, useState } from "react";
 import { SITE, NAV_ITEMS } from "../../config/site";
 import StatusBadge from "./StatusBadge";
 import ThemeToggle from "./ThemeToggle";
 
 /**
+ * Mobile navigation button and panel use btn, surface, line, and ink/accent
+ * tokens while preserving the existing circular reveal behavior.
+ *
  * MobileMenu — floating round button (bottom-right, easy to reach with a thumb)
  * that opens a full-screen panel. The panel "grows" out of the button as a circle.
  * Only visible below the `lg` breakpoint (1024px).
@@ -55,7 +61,7 @@ export default function MobileMenu({ active }) {
         aria-expanded={open}
         aria-controls="mobile-menu"
         aria-label={open ? "Close menu" : "Open menu"}
-        className="fixed bottom-6 right-6 z-60 flex h-14 w-14 items-center justify-center rounded-full bg-btn text-white shadow-glow transition-transform duration-200 active:scale-90 lg:hidden"
+        className="fixed bottom-6 right-6 z-60 flex h-14 w-14 items-center justify-center rounded-full bg-btn text-btn-text shadow-glow transition-transform duration-300 active:scale-90 lg:hidden"
       >
         {/* Two lines that rotate into an X when open (h-0.5 = 2px thick) */}
         <span className="relative block h-3 w-5" aria-hidden="true">
@@ -68,11 +74,8 @@ export default function MobileMenu({ active }) {
       <div
         id="mobile-menu"
         aria-hidden={!open}
-        className="fixed inset-0 z-50 flex flex-col justify-between bg-page px-8 pb-28 pt-24 lg:hidden"
+        className="fixed inset-0 z-50 flex flex-col justify-between bg-surface bg-aurora px-8 pb-28 pt-24 lg:hidden"
         style={{
-          // Soft glow in the bottom-right, where the button is (colour follows the theme)
-          backgroundImage:
-            "radial-gradient(circle at 100% 100%, color-mix(in oklab, var(--color-tint) 35%, transparent), transparent 60%)",
           // The circular reveal: a 0-size circle grows to cover the screen
           clipPath: open ? `circle(150vmax at ${ORIGIN})` : `circle(0px at ${ORIGIN})`,
           // `visibility` waits until the close animation ends, so hidden links can't be tabbed to
@@ -98,7 +101,7 @@ export default function MobileMenu({ active }) {
                     className={`flex items-baseline gap-4 border-b border-line/50 py-4 font-display text-4xl font-semibold tracking-tight transition-colors active:text-accent ${isActive ? "text-accent" : "text-ink"}`}
                   >
                     {SITE.showNumbers && (
-                      <span className="font-mono text-xs font-normal text-soft">
+                      <span className="font-mono text-xs font-normal text-muted">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     )}
@@ -119,7 +122,7 @@ export default function MobileMenu({ active }) {
             <StatusBadge />
             <ThemeToggle />
           </div>
-          <a href={`mailto:${SITE.email}`} className="text-sm text-muted underline-offset-4 hover:text-accent hover:underline">
+          <a href={`mailto:${SITE.email}`} className="relative text-sm text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform hover:after:scale-x-100">
             {SITE.email}
           </a>
         </div>
