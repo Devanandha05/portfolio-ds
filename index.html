@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ========== PAGE INFO (edit these) ========== -->
+    <title>Devanandha — Developer & Analyst</title>
+    <meta name="description" content="Portfolio of Devanandha: developer and analyst. Projects, skills and experience." />
+
+    <!-- Preview card when the link is shared (LinkedIn, WhatsApp, etc.).
+         Replace the URL with your real domain after deploying. -->
+    <meta property="og:title" content="Devanandha — Developer & Analyst" />
+    <meta property="og:description" content="Projects, skills and experience." />
+    <meta property="og:image" content="https://your-domain.com/og-image.png" />
+    <meta property="og:type" content="website" />
+
+    <!-- Browser toolbar colour on mobile (light / dark) -->
+    <meta name="theme-color" content="#fff7f9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0908" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- ========== DARK MODE (no white flash) ==========
+         Runs before the page paints: applies the saved theme, or the OS theme.
+         ThemeToggle.jsx uses the same "theme" key. -->
+   <script>
+     // Apply saved theme (or OS preference) before first paint
+     const saved = localStorage.getItem("theme");
+     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+     if (saved === "dark" || (!saved && prefersDark)) document.documentElement.classList.add("dark");
+   </script>
+
+    <!-- ========== FONTS ==========
+         Names must match the --font-* values in @theme (src/index.css).
+         To change fonts: edit this link AND the --font-* lines in src/index.css. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- React mounts here (see src/main.jsx) -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

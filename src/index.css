@@ -1,0 +1,190 @@
+/**
+ * INDEX.CSS — the ONLY global stylesheet (Tailwind v4, CSS-first).
+ *
+ * Everything lives here:
+ *   1. Tailwind import + dark-mode switch
+ *   2. Light-mode colours, fonts, animations  (@theme)
+ *   3. Dark-mode colour overrides             (.dark)
+ *   4. Base styles + custom utilities
+ *
+ * To re-theme the site: edit the hex values in section 2 (light) and section 3 (dark).
+ * Usage in components: bg-page  text-ink  text-muted  border-line/60  text-accent ...
+ *
+ * Not needed anymore: tailwind.config.js and styles/theme.css (delete both,
+ * and remove `import "./styles/theme.css"` from src/main.jsx).
+ */
+@import "tailwindcss";
+
+/* ============================================================
+   1. DARK MODE SWITCH
+   `dark:` classes follow class="dark" on <html> (not the OS setting).
+   Your theme toggle just adds/removes that class.
+   ============================================================ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   2. DESIGN TOKENS + LIGHT MODE (default)
+   Palette: "Mint + Peach"
+   ============================================================ */
+@theme {
+  /* ---------- Colours: LIGHT MODE ---------- */
+/*  --color-page:     #f6fffb; /* page background */
+/*  --color-surface:  #ffffff; /* cards, navbar */
+/*  --color-elevated: #e3fbf1; /* elevated surface */
+/*  --color-line:     #9eebd0; /* thin borders */
+/*  --color-ink:      #0b1f1a; /* primary text */
+/*  --color-muted:    #4b6b61; /* muted text */
+/*  --color-accent:   #0b7a5c; /* links, headings */
+/*  --color-btn:      #34d399; /* button fill */
+/*  --color-btn-text: #0b1f1a; /* text ON buttons (dark, because mint is bright) */
+/*  --color-soft:     #ff9e80; /* hover, tags: peach */
+/*  --color-tint:     #ffd1bf; /* glows, gradients */
+/*  --color-cool:     #e11d48; /* code, badges, pop accent (name kept so components don't change) */
+
+--color-page:     #FFF8F5; /* page background — warm blush */
+--color-surface:  #FFFFFF; /* cards, navbar — clean white */
+--color-elevated: #FCE8CD; /* elevated surface — soft peach */
+--color-line:     #FBC096; /* thin borders — peach */
+--color-ink:      #0a0908; /* primary text — unchanged */
+--color-muted:    #805D58; /* muted text — dusty terracotta */
+--color-accent:   #993E35; /* links, headings — deep terracotta */
+--color-btn:      #F46897; /* button fill — rose pink */
+--color-soft:     #FBC096; /* hover, tags — warm peach */
+--color-tint:     #FCE8CD; /* glows, gradients — pale peach */
+--color-cool:     #993E35; /* code, badges, "available" */
+
+  /* ---------- Fonts (loaded in index.html from Google Fonts) ---------- */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif; /* logo + big headings */
+  --font-sans:    "DM Sans", system-ui, sans-serif;             /* body text           */
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;    /* small labels        */
+
+  /* ---------- Animations (used as animate-<name>) ---------- */
+
+  /* Gentle pulse for the "Open to work" dot */
+  --animate-soft-pulse: soft-pulse 2.6s ease-out infinite;
+  @keyframes soft-pulse {
+    0%        { transform: scale(1);   opacity: 0.55; }
+    70%, 100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  /* Idle floating (portrait, symbols). Duration can be overridden per element. */
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  /* Entrance: rise a little while fading in. `both` = hidden during delay, visible after. */
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Terminal caret blink */
+  --animate-blink: blink 1s steps(1) infinite;
+  @keyframes blink {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  /* Slow rotating ring */
+  --animate-spin-slow: spin-slow 40s linear infinite;
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+}
+
+/* ============================================================
+   3. DARK MODE OVERRIDES
+   Same variable names as above, new values. Applied when <html class="dark">.
+   Every colour that differs from light mode is listed here.
+   ============================================================ */
+
+.dark{
+--color-page:     #160D10; /* page background — deep rose-black */
+--color-surface:  #211216; /* cards, navbar — dark burgundy */
+--color-elevated: #301A1C; /* elevated surface — deep terracotta */
+--color-line:     #63312F; /* thin borders — muted terracotta */
+--color-ink:      #fbeff3; /* primary text — unchanged */
+--color-muted:    #D9AAA7; /* muted text — dusty rose */
+--color-accent:   #FBC096; /* links, headings — luminous peach */
+--color-soft:     #F46897; /* hover, tags — vibrant rose */
+--color-tint:     rgba(244, 104, 151, 0.3); /* glows, gradients */
+--color-cool:     #FCE8CD; /* code, badges, "available" */
+}
+
+/* ============================================================
+   4. BASE STYLES
+   ============================================================ */
+@layer base {
+  /* Smooth anchor scrolling; scroll-padding stops the fixed navbar covering headings.
+     color-scheme makes native scrollbars / form controls match the theme. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    color-scheme: light;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+
+  /* Site-wide background, text colour and font, with a soft fade when the theme switches */
+  body {
+    @apply bg-page text-ink font-sans antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Highlighted-text colour: matches the theme */
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-soft) 35%, transparent);
+    color: var(--color-ink);
+  }
+
+  /* Visible keyboard focus on every clickable element (accessibility) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* v4 buttons use the default arrow cursor; restore the pointer hand like v3 */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Respect people who turn animations off in their OS settings */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================================
+   5. CUSTOM UTILITIES
+   ============================================================ */
+
+/* Reusable page width + side padding. Use <div className="container-page"> in sections. */
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-6;
+}
+
+/* Vertical spacing shared by all sections: change once, updates everywhere */
+@utility section-space {
+  @apply py-24 lg:py-32;
+}
+
+/* OPTIONAL: very subtle grid texture for hero / section backgrounds.
+   Use as className="bg-grid". Colour follows the theme via --color-line. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right,  color-mix(in oklab, var(--color-line) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 35%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
