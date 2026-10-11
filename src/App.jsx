@@ -8,6 +8,7 @@ import Work from "./sections/Work";
 import Skills from "./sections/Skills";
 import Footer from "./components/layout/Footer";
 import Experience from "./sections/Experience";
+import Certifications from "./sections/Certifications";
 import About from "./sections/About";
 import Contact from "./sections/Contact";
 
@@ -39,6 +40,7 @@ export default function App() {
         <Work />
         <Skills />
         <Experience />
+        <Certifications />
         <About />
         <Contact />
       </main>

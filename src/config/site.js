@@ -29,6 +29,7 @@ export const NAV_ITEMS = [
   { id: "work", label: "Work" },
   { id: "skills", label: "Skills" },
   { id: "experience", label: "Experience" },
+  { id: "certifications", label: "Certifications" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ];

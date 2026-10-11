@@ -231,7 +231,7 @@ export default function Hero() {
         {/* ---- 1) GIANT NAME, behind the portrait ---- */}
         <h1
           aria-label={HERO.name}
-          className={`absolute inset-x-0 z-10 select-none whitespace-nowrap text-center font-display font-bold uppercase leading-[0.9] tracking-tight ${NAME_STYLES[NAME_STYLE]}`}
+          className={`absolute inset-x-0 z-10 select-none whitespace-nowrap text-center font-mono font-bold uppercase leading-[0.9] tracking-tight ${NAME_STYLES[NAME_STYLE]}`}
           style={{ top: NAME_TOP, fontSize: NAME_SIZE, ...parallax(-6) }}
         >
           {/* Letters rise in one by one */}
@@ -246,7 +246,7 @@ export default function Hero() {
             Outer div = positioning only. Inner div = mouse parallax. Floaters live in the
             same box, so their x / y percentages stay attached to the portrait. */}
         <div
-          className="absolute bottom-0 right-0 z-20 aspect-4/5 -translate-x-1/2"
+          className="absolute bottom-0 right-[4%] z-20 aspect-4/5"
           style={{ height: PORTRAIT_HEIGHT }}
         >
           {/* Soft glow behind the character (-inset-[12%] = extends 12% beyond the box) */}
@@ -268,9 +268,9 @@ export default function Hero() {
           ))}
 
           {/* The portrait: mouse parallax > entrance fade > idle float */}
-          <div className="absolute inset-0 z-20" style={parallax(12)}>
+          <div className="absolute inset-0 bottom-0 z-20" style={parallax(12)}>
             <div className="h-full w-full animate-fade-up" style={delay(0.5)}>
-              <div className="h-full w-full animate-float" style={{ animationDuration: "7s" }}>
+              <div className="h-max w-max animate-float" style={{ animationDuration: "7s" }}>
                 <Portrait />
               </div>
             </div>
