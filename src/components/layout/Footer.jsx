@@ -34,13 +34,13 @@ export default function Footer() {
   return (
     <footer className="relative border-t border-line bg-surface">
       {/* Thin hairline that fades in from both sides */}
-      <div aria-hidden="true" className="h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+      <div aria-hidden="true" className="h-px bg-linear-to-r from-transparent via-accent/50 to-transparent" />
 
       <div className="container-page py-16 lg:py-20">
         <Reveal>
           <div className="grid gap-12 md:grid-cols-12">
             {/* ---------- Column 1: mark + tagline + availability ---------- */}
-            <div className="md:col-span-5">
+            <div className="md:col-span-4">
               <a href="#home" aria-label="Back to top" className="inline-block font-display text-5xl font-bold tracking-tight text-ink">
                 {SITE.initials}
                 <span className="text-accent">.</span>
@@ -72,7 +72,7 @@ export default function Footer() {
             </nav>
 
             {/* ---------- Column 3: email + socials ---------- */}
-            <div className="md:col-span-4">
+            <div className="md:col-span-5">
               <h2 className={columnHeading}>Connect</h2>
 
               {/* Email with an underline that draws itself on hover */}

@@ -8,6 +8,10 @@
  *   4. Base styles
  *   5. Custom utilities (layout, textures, gradients, glows, micro-interactions)
  *
+ * PALETTE: "Graphite Berry"
+ *   Neutral graphite base + berry-pink accent + mint/teal counterpoint
+ *   + violet gradient end.
+ *
  * HOW TO RE-THEME
  *   Edit the hex values in section 2 (light) and section 3 (dark). That's it.
  *   Components never use hex codes, only the token names below.
@@ -20,8 +24,9 @@
  *   btn, btn-text             -> button fill + the text ON the button
  *   soft                      -> hover, tags
  *   tint                      -> glows
- *   cool                      -> the cool counterpoint (teal): code, badges, "open to work" dot
- *   sun                       -> golden sparks / highlights
+ *   cool                      -> the cool counterpoint (mint/teal): code, badges, "open to work" dot
+ *   sun                       -> pink / violet sparks and highlights
+ *                                (name kept so existing components don't break)
  *
  * Not needed anymore: tailwind.config.js and styles/theme.css (delete both,
  * and remove `import "./styles/theme.css"` from src/main.jsx).
@@ -37,47 +42,49 @@
 
 /* ============================================================
    2. DESIGN TOKENS + LIGHT MODE (default)
-   Palette: warm blush / peach / rose / terracotta + a teal counterpoint
+   Palette: cool graphite neutrals + berry pink + mint teal
    ============================================================ */
+
 @theme {
   /* ---------- Core colours: LIGHT MODE ---------- */
-  --color-page:     #FFF8F5; /* page background — warm blush */
-  --color-surface:  #FFFFFF; /* cards, navbar — clean white */
-  --color-elevated: #FCE8CD; /* elevated surface — soft peach */
-  --color-line:     #FBC096; /* thin borders — peach */
-  --color-ink:      #0a0908; /* primary text */
-  --color-muted:    #805D58; /* muted text — dusty terracotta */
-  --color-accent:   #993E35; /* links, headings — deep terracotta */
-  --color-btn:      #F46897; /* button fill — rose pink */
-  --color-btn-text: #0a0908; /* text ON buttons (dark: white on rose is hard to read) */
-  --color-soft:     #FBC096; /* hover, tags — warm peach */
-  --color-tint:     #FCE8CD; /* glows — pale peach */
-  --color-cool:     #0b7f70; /* cool counterpoint — teal: code, badges, "open to work" dot */
-  --color-sun:      #FFB84D; /* golden sparks, highlights (decorative, not for body text) */
+  --color-page:     #F7F7F8; /* page background — soft graphite white */
+  --color-surface:  #FFFFFF; /* cards, navbar — pure white */
+  --color-elevated: #ECEAEE; /* elevated surfaces — light graphite */
+  --color-line:     #DAD6DE; /* thin borders — mist grey */
+  --color-ink:      #17151A; /* primary text — near-black graphite */
+  --color-muted:    #625C69; /* muted text — slate grey-violet */
+  --color-accent:   #B0185F; /* links, headings — deep berry */
+  --color-btn:      #D6246E; /* button fill — raspberry */
+  --color-btn-text: #FFFFFF; /* text on buttons — white */
+  --color-soft:     #F9DCE8; /* hover, tags — pale berry blush */
+  --color-tint:     #FCE8F1; /* glows, subtle backgrounds — faint pink */
+  --color-cool:     #0F9D8A; /* cool counterpoint — mint teal */
+  --color-sun:      #FF7AB6; /* sparks, highlights — bubblegum pink */
 
   /* ---------- Brand gradient for FILLS (buttons, bars, underlines) ----------
-     Bright on purpose; pair with dark text. Used by .bg-gradient-brand */
-  --color-grad-from: #F46897; /* rose  */
-  --color-grad-via:  #FBC096; /* peach */
-  --color-grad-to:   #FFB84D; /* gold  */
+     Raspberry -> orchid -> violet; pair with white text in light mode.
+     Used by .bg-gradient-brand */
+  --color-grad-from: #D6246E; /* raspberry */
+  --color-grad-via:  #B03FC8; /* orchid */
+  --color-grad-to:   #8B5CF6; /* violet */
 
   /* ---------- Brand gradient for TEXT (hero name, big headings) ----------
-     Deeper shades in light mode so the text stays readable on a light page.
+     Deeper shades so the text stays readable on the near-white background.
      Used by .text-gradient */
-  --color-gtext-from: #993E35; /* terracotta */
-  --color-gtext-via:  #E2457A; /* deep rose  */
-  --color-gtext-to:   #D9730D; /* deep amber */
+  --color-gtext-from: #B0185F; /* deep berry */
+  --color-gtext-via:  #A12FA8; /* plum orchid */
+  --color-gtext-to:   #6D3FD0; /* deep violet */
 
   /* ---------- Aurora glow blobs (soft coloured light behind sections) ----------
      Used by .bg-aurora */
-  --color-glow-1: #F46897; /* rose  */
-  --color-glow-2: #FBC096; /* peach */
-  --color-glow-3: #5eead4; /* mint-teal */
+  --color-glow-1: #D6246E; /* raspberry */
+  --color-glow-2: #8B5CF6; /* violet */
+  --color-glow-3: #0F9D8A; /* mint teal */
 
   /* ---------- Fonts (loaded in index.html from Google Fonts) ---------- */
-  --font-display: "Bricolage Grotesque", system-ui, sans-serif; /* logo + big headings */
-  --font-sans:    "DM Sans", system-ui, sans-serif;             /* body text           */
-  --font-mono:    "JetBrains Mono", ui-monospace, monospace;    /* small labels        */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans:    "DM Sans", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
 
   /* ---------- Animations (used as animate-<name>) ---------- */
 
@@ -115,7 +122,8 @@
     to { transform: rotate(360deg); }
   }
 
-  /* Slow colour drift for gradient text. Add together with .text-gradient:
+  /* Slow colour drift for gradient text.
+     Use together with .text-gradient:
      <h1 className="text-gradient animate-gradient-shift"> */
   --animate-gradient-shift: gradient-shift 8s ease-in-out infinite;
   @keyframes gradient-shift {
@@ -128,32 +136,37 @@
    3. DARK MODE OVERRIDES
    Same variable names as above, new values. Applied when <html class="dark">.
    Every colour that differs from light mode is listed here.
-   (The FILL gradient --color-grad-* is the same in both modes, so it's absent.)
    ============================================================ */
 .dark {
   /* ---------- Core colours: DARK MODE ---------- */
-  --color-page:     #160D10; /* page background — deep rose-black */
-  --color-surface:  #211216; /* cards, navbar — dark burgundy */
-  --color-elevated: #301A1C; /* elevated surface — deep terracotta */
-  --color-line:     #63312F; /* thin borders — muted terracotta */
-  --color-ink:      #fbeff3; /* primary text */
-  --color-muted:    #D9AAA7; /* muted text — dusty rose */
-  --color-accent:   #FBC096; /* links, headings — luminous peach */
-  --color-btn-text: #160D10; /* text ON buttons */
-  --color-soft:     #F46897; /* hover, tags — vibrant rose */
-  --color-tint:     rgba(244, 104, 151, 0.3); /* glows */
-  --color-cool:     #5eead4; /* cool counterpoint — bright teal */
-  --color-sun:      #FFD27A; /* golden sparks */
+  --color-page:     #0F0D11; /* page background — deep graphite-plum */
+  --color-surface:  #17141A; /* cards, navbar */
+  --color-elevated: #211D26; /* elevated surface */
+  --color-line:     #3A3342; /* thin borders */
+  --color-ink:      #F4F0F6; /* primary text */
+  --color-muted:    #ADA3B5; /* muted text — soft lavender grey */
+  --color-accent:   #FF8FC1; /* links, headings — luminous pink */
+  --color-btn:      #FF4F9A; /* button fill — hot pink */
+  --color-btn-text: #0F0D11; /* text ON buttons — dark, for contrast on bright pink */
+  --color-soft:     #F472B6; /* hover, tags — vibrant pink */
+  --color-tint:     rgba(255, 79, 154, 0.25); /* glows */
+  --color-cool:     #5EEAD4; /* cool counterpoint — bright mint */
+  --color-sun:      #C4A1FF; /* sparks — soft lilac */
+
+  /* ---------- Gradient for FILLS: brighter so dark button text stays readable ---------- */
+  --color-grad-from: #FF4F9A; /* hot pink */
+  --color-grad-via:  #D86BE0; /* orchid */
+  --color-grad-to:   #A78BFA; /* light violet */
 
   /* ---------- Gradient for TEXT: bright shades on dark ---------- */
-  --color-gtext-from: #F46897; /* rose  */
-  --color-gtext-via:  #FBC096; /* peach */
-  --color-gtext-to:   #FFD27A; /* gold  */
+  --color-gtext-from: #FF8FC1; /* pink   */
+  --color-gtext-via:  #E8A6F5; /* orchid */
+  --color-gtext-to:   #C4A1FF; /* lilac  */
 
   /* ---------- Aurora glow blobs: dark mode ---------- */
-  --color-glow-1: #F46897; /* rose  */
-  --color-glow-2: #F59E6B; /* warm orange-peach */
-  --color-glow-3: #2dd4bf; /* teal  */
+  --color-glow-1: #FF4F9A; /* hot pink */
+  --color-glow-2: #A78BFA; /* violet   */
+  --color-glow-3: #2DD4BF; /* mint     */
 
   /* How strong the aurora glows are (percentage). Lower = subtler. */
   --aurora-opacity: 26%;
@@ -238,24 +251,24 @@
   background-size: 48px 48px;
 }
 
-/* Soft coloured "aurora" glows (rose / peach / teal) behind a hero or section.
+/* Soft coloured "aurora" glows (raspberry / violet / mint) behind a hero or section.
    The element needs `relative` (and usually `overflow-hidden`).
    Combine with the grid:  className="relative overflow-hidden bg-aurora bg-grid"
-   Strength: --aurora-opacity (30% light by default, 26% in dark mode). */
+   Strength: --aurora-opacity (20% light by default, 26% in dark mode). */
 @utility bg-aurora {
   background-image:
     radial-gradient(40rem 28rem at 12% 0%,
-      color-mix(in oklab, var(--color-glow-1) var(--aurora-opacity, 30%), transparent), transparent 70%),
+      color-mix(in oklab, var(--color-glow-1) var(--aurora-opacity, 20%), transparent), transparent 70%),
     radial-gradient(36rem 26rem at 92% 8%,
-      color-mix(in oklab, var(--color-glow-2) calc(var(--aurora-opacity, 30%) + 10%), transparent), transparent 70%),
+      color-mix(in oklab, var(--color-glow-2) calc(var(--aurora-opacity, 20%) + 6%), transparent), transparent 70%),
     radial-gradient(34rem 24rem at 60% 95%,
-      color-mix(in oklab, var(--color-glow-3) calc(var(--aurora-opacity, 30%) - 8%), transparent), transparent 70%);
+      color-mix(in oklab, var(--color-glow-3) calc(var(--aurora-opacity, 20%) - 4%), transparent), transparent 70%);
 }
 
 /* ---------- Gradients ---------- */
 
 /* Gradient FILL: buttons, thin bars, scroll-progress line, card top-edges.
-   Remember dark text on it (text-btn-text). */
+   Light mode: use white text on it. Dark mode: use dark text (text-btn-text handles both). */
 @utility bg-gradient-brand {
   background-image: linear-gradient(
     110deg,
@@ -282,7 +295,7 @@
 
 /* ---------- Coloured shadows (instead of grey ones) ---------- */
 
-/* Rose glow under buttons / highlighted cards */
+/* Berry glow under buttons / highlighted cards */
 @utility shadow-glow {
   box-shadow: 0 10px 30px -10px color-mix(in oklab, var(--color-btn) 55%, transparent);
 }
@@ -294,7 +307,7 @@
 
 /* ---------- Micro-interactions ---------- */
 
-/* Card that lifts, gets a peach/rose border and a coloured shadow on hover.
+/* Card that lifts, gets a pink border and a coloured shadow on hover.
    Use on a card that already has `border border-line bg-surface rounded-2xl`. */
 @utility card-lift {
   transition:

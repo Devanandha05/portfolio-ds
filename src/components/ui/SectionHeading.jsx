@@ -21,7 +21,7 @@ export default function SectionHeading({ id, title, description, descriptionClas
   return (
     <header className="mb-10 lg:mb-14">
       {/* Thin gradient hairline: accent fading into the border colour */}
-      <div aria-hidden="true" className="mb-8 h-px bg-gradient-to-r from-accent/60 via-line/60 to-transparent" />
+      <div aria-hidden="true" className="mb-8 h-px bg-linear-to-r from-accent/60 via-line/60 to-transparent" />
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>

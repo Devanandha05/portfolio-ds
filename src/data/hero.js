@@ -7,10 +7,9 @@
 export const HERO = {
   // Small line above the name. The pulsing dot shows only if SITE.status.show is true.
   eyebrow: "Available for opportunities",
-  idLabel: "Identity card · No. 0001", // tiny label top-right (desktop only)
 
   // Rendered in giant uppercase letters. Keep it one word so it fits on mobile.
-  name: "Devanandha S",
+  name: "Devanandha",
   roleLine: "Analyst @ Cognizant · Developer · Builder",
 
   // Intro paragraph. `introHighlight` must be an exact piece of `intro`; it gets the accent colour.
